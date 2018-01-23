@@ -6,7 +6,7 @@ import (
 	"go/token"
 	"regexp"
 
-	"github.com/posener/complete"
+	"github.com/sirkon/complete"
 )
 
 func functionsInFile(path string, regexp *regexp.Regexp) (tests []string) {

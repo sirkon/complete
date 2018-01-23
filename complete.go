@@ -11,8 +11,8 @@ import (
 	"io"
 	"os"
 
-	"github.com/posener/complete/cmd"
-	"github.com/posener/complete/match"
+	"github.com/sirkon/complete/cmd"
+	"github.com/sirkon/complete/match"
 )
 
 const (
@@ -74,7 +74,15 @@ func (c *Complete) Complete() bool {
 			matches = append(matches, option)
 		}
 	}
-	Log("Matches: %s", matches)
+	Log("Non-trusted matches: %s", matches)
+
+	// append trusted matches
+	if c.Command.TrustedArgs != nil {
+		trustedMatches := c.Command.TrustedArgs.Predict(a)
+		Log("Trusted matches: %s", trustedMatches)
+		matches = append(matches, trustedMatches...)
+	}
+	Log("All matches: %s", matches)
 	c.output(matches)
 	return true
 }

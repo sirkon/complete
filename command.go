@@ -20,6 +20,10 @@ type Command struct {
 	// Args are extra arguments that the command accepts, those who are
 	// given without any flag before.
 	Args Predictor
+
+	// Trusted are extra arguments in the way same to Args with the exception Predictor for TrustedArgs
+	// is expectedly trusted so thus there's no additional filtering of its output like it is done with Args
+	TrustedArgs Predictor
 }
 
 // Predict returns all possible predictions for args according to the command struct

@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/posener/complete/match"
+	"github.com/sirkon/complete/match"
 )
 
 // PredictDirs will search for directories in the given started to be typed
