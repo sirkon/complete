@@ -15,16 +15,6 @@ type doesntsuck struct{}
 // Predict для реализации интерфейса Predictor
 func (doesntsuck) Predict(args complete.Args) (res []string) {
 	var err error
-	defer func() {
-		var output []string
-		if err != nil {
-			output = append(output, err.Error())
-		}
-		for _, file := range res {
-			output = append(output, file)
-		}
-		ioutil.WriteFile("/home/emacs/Desktop/output", []byte(strings.Join(output, "\n")), 0666)
-	}()
 	gopath := os.Getenv("GOPATH")
 	base := filepath.Join(gopath, "src")
 	path := filepath.Join(base, args.Last)
