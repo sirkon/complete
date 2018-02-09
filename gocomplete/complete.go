@@ -8,7 +8,7 @@ var (
 	anyPackage = complete.PredictFunc(predictPackages)
 	goFiles    = complete.PredictFiles("*.go")
 	anyFile    = complete.PredictFiles("*")
-	anyGo      = complete.PredictOr(goFiles, anyPackage, ellipsis)
+	anyGo      = doesntsuck{}
 )
 
 func main() {
