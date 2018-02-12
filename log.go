@@ -5,6 +5,8 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+
+	"github.com/sirkon/message"
 )
 
 // Log is used for debugging purposes
@@ -17,7 +19,17 @@ var Log = getLogger()
 func getLogger() func(format string, args ...interface{}) {
 	var logfile io.Writer = ioutil.Discard
 	if os.Getenv(envDebug) != "" {
-		logfile = os.Stderr
+		filePath := LogFilePath{}
+		if ok, _ := filePath.Extract(os.Getenv(envDebug)); ok {
+			var err error
+			logfile, err = os.OpenFile(filePath.File, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
+			if err != nil {
+				message.Error(err)
+				logfile = os.Stderr
+			}
+		} else {
+			logfile = os.Stderr
+		}
 	}
 	return log.New(logfile, "complete ", log.Flags()).Printf
 }
