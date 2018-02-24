@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"os/user"
 	"path/filepath"
 	"strings"
 
@@ -76,12 +75,7 @@ func (s workProjects) Predict(args complete.Args) (res []string) {
 }
 
 func initGlobals() {
-	usr, err := user.Current()
-	if err != nil {
-		Log("can't get current user: %workDir", err)
-		os.Exit(1)
-	}
-	gopathSrc = filepath.Join(usr.HomeDir, "Sources", "go", "src")
+	gopathSrc = filepath.Join(os.Getenv("GOPATH"), "src")
 }
 
 func main() {
