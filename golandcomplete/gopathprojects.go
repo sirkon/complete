@@ -23,7 +23,12 @@ type projectRoot struct {
 // Root возращает $GOPATH/src
 func (pr *projectRoot) Root() string {
 	if len(pr.root) == 0 {
-		pr.root = filepath.Join(os.Getenv("GOPATH"), "src")
+		gopath := os.Getenv("GOPATH")
+		if len(gopath) == 0 {
+			home, _ := os.UserHomeDir()
+			gopath = filepath.Join(home, "go")
+		}
+		pr.root = filepath.Join(gopath, "src")
 	}
 	return pr.root
 }

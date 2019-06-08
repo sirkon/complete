@@ -16,6 +16,10 @@ type doesntsuck struct{}
 func (doesntsuck) Predict(args complete.Args) (res []string) {
 	var err error
 	gopath := os.Getenv("GOPATH")
+	if len(gopath) == 0 {
+		home, _ := os.UserHomeDir()
+		gopath = filepath.Join(home, "go")
+	}
 	base := filepath.Join(gopath, "src")
 	path := filepath.Join(base, args.Last)
 	items, err := filepath.Glob(path + "*")

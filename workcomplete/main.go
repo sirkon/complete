@@ -75,7 +75,12 @@ func (s workProjects) Predict(args complete.Args) (res []string) {
 }
 
 func initGlobals() {
-	gopathSrc = filepath.Join(os.Getenv("GOPATH"), "src")
+	gopath := os.Getenv("GOPATH")
+	if len(gopath) == 0 {
+		home, _ := os.UserHomeDir()
+		gopath = filepath.Join(home, "go")
+	}
+	gopathSrc = filepath.Join(gopath, "src")
 }
 
 func main() {
