@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"path"
 	"path/filepath"
 	"strings"
 
@@ -71,7 +72,32 @@ func (s workProjects) Predict(args complete.Args) (res []string) {
 		}
 		res = append(res, files...)
 	}
-	return res
+	return filterOutSchemaTool(res)
+}
+
+// filterOutSchemaTool отфильтровываем схему если есть
+func filterOutSchemaTool(res []string) []string {
+	if prjIsHere(res, "UCS-COMMON", "schema") < 0 {
+		return res
+	}
+	j := prjIsHere(res, "UCS-TOOLS", "schema-tool")
+	if j < 0 {
+		return res
+	}
+	if j < len(res)-1 {
+		res[j] = res[len(res)-1]
+	}
+	return res[:len(res)-1]
+}
+
+func prjIsHere(res []string, group string, project string) int {
+	s := path.Join("", "gitlab.stageoffice.ru", group, project)
+	for i, k := range res {
+		if strings.HasSuffix(k, s) {
+			return i
+		}
+	}
+	return -1
 }
 
 func initGlobals() {
